@@ -1,0 +1,66 @@
+name: Curate cinematic equine photography
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/curate-equine-images.yml']
+permissions: {contents: write}
+jobs:
+  photography:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download selected original Unsplash photographs and optimise
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          from PIL import Image,ImageOps,ImageEnhance
+          from pathlib import Path
+          import urllib.request,io,time
+          sources=[
+            ('cinema-gallop.webp','photo-1757496799201-bcbf877e5405',2200,83),
+            ('cinema-mist.webp','photo-1651695650404-b1937970aa86',1750,83),
+            ('cinema-horses.webp','photo-1699821486677-28b460ad3f2a',1750,82),
+            ('cinema-portrait.webp','photo-1505842871949-e263c7f49bfa',1500,83),
+          ]
+          root=Path('assets/images');root.mkdir(exist_ok=True)
+          for filename,photo,width,quality in sources:
+            url=f'https://images.unsplash.com/{photo}?auto=format&fit=max&w={width}&q=90'
+            err=None
+            for trial in range(3):
+              try:
+                req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (compatible; EquineWebsite/1.0)'})
+                with urllib.request.urlopen(req,timeout=35) as resp:raw=resp.read()
+                image=ImageOps.exif_transpose(Image.open(io.BytesIO(raw))).convert('RGB')
+                if image.width<900 or image.height<600:raise ValueError('insufficient resolution: '+str(image.size))
+                if image.width>width:image.thumbnail((width,3000),Image.Resampling.LANCZOS)
+                # Restrained fine-art grade; preserve natural coat and grass colours.
+                image=ImageEnhance.Color(image).enhance(.89)
+                image=ImageEnhance.Contrast(image).enhance(1.045)
+                image.save(root/filename,'WEBP',quality=quality,method=6)
+                print(filename,image.size,'bytes=',(root/filename).stat().st_size)
+                break
+              except Exception as e:
+                err=e;print('retry',filename,str(e));time.sleep(2)
+            else:raise RuntimeError(f'Could not retrieve {filename}: {err}')
+          PY
+      - name: Record original photography credits
+        run: |
+          cat > assets/photography-sources.md <<'EOF'
+          # Licensed stock photographs
+          Photos are published under the Unsplash License (free commercial use).
+          These are stock images and do not depict the actual practice, its staff, or patients.
+          - cinema-gallop.webp — Sinisa Lekovic: https://unsplash.com/photos/a-dark-brown-horse-kicking-up-dust-while-running-f6SXDLtfUJg
+          - cinema-mist.webp — Taylor Daugherty: https://unsplash.com/photos/a-horse-in-a-foggy-field-jygES_5ikEA
+          - cinema-horses.webp — Bernd Dittrich: https://unsplash.com/photos/a-couple-of-horses-standing-on-top-of-a-lush-green-field-JNrurVYeNFc
+          - cinema-portrait.webp — Ryan Yeaman: https://unsplash.com/photos/close-up-photo-of-black-horse-a7_grarydTg
+          EOF
+      - name: Commit curated, local web photography
+        run: |
+          git add assets/images/cinema-*.webp assets/photography-sources.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add high-resolution locally hosted curated equine photography'
+          git push origin HEAD:main
