@@ -45,6 +45,21 @@
       document.documentElement.classList.add('has-motion');
     }
   }
+  // Subtle depth cue on wide viewports. The CSS remains fully functional without JS.
+  if(!reduceMotion && window.matchMedia('(min-width: 951px)').matches){
+    const heroImage=document.querySelector('.hero-art__image');
+    if(heroImage){
+      let queued=false;
+      window.addEventListener('scroll',()=>{
+        if(queued)return;queued=true;
+        requestAnimationFrame(()=>{
+          const offset=Math.min(45,Math.max(0,window.scrollY)*.045);
+          heroImage.style.translate='0 '+offset.toFixed(1)+'px';
+          queued=false;
+        });
+      },{passive:true});
+    }
+  }
   // Details/summary is natively keyboard accessible; close adjacent FAQs after opening one.
   document.querySelectorAll('.faq-stack').forEach(stack=>{
     stack.querySelectorAll('details').forEach(item=>{
