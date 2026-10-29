@@ -1,4 +1,4 @@
-name: Visual QA luxury redesign
+name: Visual QA luxury redesign (published)
 on:
   push:
     paths: ['.github/workflows/qa-luxury.yml']
