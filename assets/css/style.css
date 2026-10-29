@@ -824,3 +824,15 @@ h1,h2,h3,h4,p{margin-top:0}
 @media(max-width:950px){.maison-letter__content{margin-left:0}.maison-service{grid-template-columns:45px 1fr 32px}.maison-service__category{display:none}.maison-service__peek{display:none}.maison-cover{grid-template-columns:1fr}.maison-cover__photo{min-height:0;height:490px}.maison-cover__story{padding:80px var(--gutter) 110px}.maison-place__grid{grid-template-columns:1fr}.maison-place__photo{height:500px}}
 @media(max-width:690px){.maison-hero{min-height:740px;max-height:none;height:calc(100svh - 94px)}.maison-hero__index,.maison-hero__bottom{font-size:8px}.maison-hero__index span:last-child{display:none}.maison-hero__eyebrow{font-size:9px;letter-spacing:.16em}.maison-hero h1{font-size:clamp(77px,17vw,120px);white-space:normal}.maison-hero h1 em{margin-left:0}.maison-hero__description{font-size:13px;max-width:300px}.maison-hero__actions{gap:15px}.maison-hero__actions a{font-size:10px}.maison-reveal{height:165vh}.maison-reveal__stage{width:84vw;height:66vh}.maison-reveal__type{font-size:clamp(60px,14vw,90px);white-space:normal}.maison-reveal__surtitle,.maison-reveal__foot{left:15px;font-size:8px}.maison-letter,.maison-services,.maison-place,.maison-end{padding-block:92px}.maison-letter h2,.maison-services__head h2,.maison-place h2{font-size:clamp(63px,13vw,90px)}.maison-letter__detail{display:block}.maison-letter__detail p{font-size:13px}.maison-letter__detail a{margin-top:20px}.maison-imagebreak{height:650px;min-height:0}.maison-imagebreak h2{font-size:clamp(78px,16vw,120px)}.maison-services__head{display:block}.maison-services__head p{margin-top:24px}.maison-service{grid-template-columns:25px 1fr 24px;min-height:112px;gap:10px}.maison-service h3{font-size:clamp(33px,8vw,51px)}.maison-cover__photo{height:410px}.maison-cover h2{font-size:clamp(69px,13vw,94px)}.maison-place__photo{height:420px}.maison-end h2{font-size:clamp(89px,17vw,133px)}.maison-end__bottom{display:block}.maison-end__bottom a{font-size:clamp(53px,11vw,85px)}.maison-end__links{flex-wrap:wrap;gap:22px;font-size:9px}}
 @media(prefers-reduced-motion:reduce){.maison-reveal{height:auto}.maison-reveal__stick{position:relative;height:640px}.maison-reveal__stage{width:100%;height:100%}}
+
+/* Original horse insignia and harmonised brand palette */
+.brand-symbol{width:54px;height:54px;display:flex;justify-content:center;align-items:center;flex:none}
+.brand-symbol img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-primary{color:#7f916b}
+.brand-secondary{color:#274538}
+.brand--footer .brand-symbol{width:54px;height:54px}
+.brand--footer .brand-primary{color:#d2dec9}
+.brand--footer .brand-secondary{color:#dbe7da}
+.original-identity img{border:0;background:transparent;mix-blend-mode:normal;filter:none}
+@media(max-width:950px){.brand-symbol{width:47px;height:47px}}
+@media(max-width:690px){.brand-symbol{width:42px;height:42px}.brand-primary{font-size:24px}.brand-secondary{font-size:6px}}
