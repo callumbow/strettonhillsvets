@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theequinevet.co.uk/sitemap.xml
