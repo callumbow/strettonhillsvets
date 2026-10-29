@@ -1,0 +1,85 @@
+name: Verify live equine website
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-live-site.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check published files
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /about/ /services/ /contact/ /faqs/ /assets/css/style.css /assets/js/main.js /assets/images/horses-hero.webp; do
+            code=$(curl -L -sS --retry 3 --max-time 25 -o /dev/null -w '%{http_code}' "https://theequinevet.co.uk${path}")
+            echo "${path} -> HTTP ${code}"
+            test "${code}" = 200
+          done
+      - name: Install browser automation
+        run: npm install --no-save playwright
+      - name: Check actual live desktop and mobile layouts
+        shell: bash
+        run: |
+          cat > /tmp/check.cjs <<'JS'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          (async () => {
+            const browser = await chromium.launch({executablePath: '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox']});
+            const cases = [
+              {url:'/',width:1440,label:'desktop'},
+              {url:'/',width:390,label:'mobile'},
+              {url:'/about/',width:1280,label:'about'},
+              {url:'/services/',width:390,label:'services-mobile'},
+              {url:'/contact/',width:390,label:'contact-mobile'}
+            ];
+            let fail = false;
+            for (const c of cases) {
+              const page = await browser.newPage({ viewport:{width:c.width,height:900}, deviceScaleFactor:1 });
+              const errors=[];
+              page.on('pageerror',e=>errors.push(String(e)));
+              let response=await page.goto('https://theequinevet.co.uk'+c.url,{waitUntil:'domcontentloaded',timeout:30000});
+              await page.waitForTimeout(1200);
+              const result = await page.evaluate(() => {
+                const images=[...document.querySelectorAll('img')];
+                return {
+                  title:document.title,
+                  font:getComputedStyle(document.body).fontFamily,
+                  h1:document.querySelector('h1')?.textContent?.trim().slice(0,60),
+                  visibleH1:!!document.querySelector('h1')?.getBoundingClientRect().width,
+                  width:document.documentElement.scrollWidth,
+                  viewport:innerWidth,
+                  missingImages:images.filter(x=>!x.complete || x.naturalWidth===0).map(x=>x.src),
+                  imageCount:images.length
+                };
+              });
+              const styled=/DM Sans|Cormorant/.test(result.font);
+              const ok=response.status()===200 && styled && result.visibleH1 && result.missingImages.length===0 && result.width<=result.viewport+2 && errors.length===0;
+              console.log(JSON.stringify({page:c.label,status:response.status(),styled,ok,...result,errors}));
+              if(!ok) fail=true;
+              if(c.label==='mobile') {
+                const menu=page.locator('.menu-toggle');
+                if(await menu.count()) {
+                  await menu.click();
+                  const expanded=await menu.getAttribute('aria-expanded');
+                  console.log('mobile menu aria-expanded: '+expanded);
+                  if(expanded!=='true')fail=true;
+                }
+              }
+              await page.screenshot({path:c.label+'.png'});
+              await page.close();
+            }
+            await browser.close();
+            if(fail) process.exitCode=1;
+          })().catch(e=>{console.error(e);process.exitCode=1;});
+          JS
+          node /tmp/check.cjs
+      - name: Preserve live page screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-website-screenshots
+          path: '*.png'
