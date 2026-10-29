@@ -1,0 +1,40 @@
+name: QA cinematic homepage
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/qa-cinematic.yml']
+permissions: {contents: read}
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install --no-save playwright
+      - name: Test published cinema desktop and mobile
+        run: |
+          cat > /tmp/qa.cjs <<'JS'
+          const {chromium}=require(process.cwd()+'/node_modules/playwright');
+          (async()=>{
+            const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox']});
+            let failed=false;
+            for(const [label,w,h] of [['desktop',1440,900],['mobile',390,844],['small',320,700]]){
+              const p=await b.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+              const errs=[];p.on('pageerror',e=>errs.push(e.message));
+              const resp=await p.goto('https://theequinevet.co.uk/',{waitUntil:'networkidle',timeout:45000});
+              await p.screenshot({path:label+'-hero.png'});
+              await p.evaluate(()=>window.scrollTo(0,document.body.scrollHeight*.33));await p.waitForTimeout(1200);
+              await p.screenshot({path:label+'-scene.png'});
+              await p.evaluate(()=>window.scrollTo(0,document.body.scrollHeight*.75));await p.waitForTimeout(900);
+              const checks=await p.evaluate(()=>({w:document.documentElement.scrollWidth,inner:innerWidth,hasGSAP:typeof gsap!=='undefined',hasST:typeof ScrollTrigger!=='undefined',image:document.querySelector('.film-intro__still img')?.naturalWidth,section:!!document.querySelector('.film-scroll__sticky'),services:!!document.querySelector('.film-services__track'),heading:document.querySelector('h1')?.textContent?.trim().slice(0,90)}));
+              const ok=resp.status()===200&&checks.w<=checks.inner+3&&checks.hasGSAP&&checks.hasST&&checks.image>0&&checks.section&&checks.services&&errs.length===0;
+              console.log(JSON.stringify({label,status:resp.status(),...checks,errors:errs,ok}));if(!ok)failed=true;
+              await p.close();
+            }
+            await b.close();if(failed)process.exitCode=1;
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node /tmp/qa.cjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: cinema-screen-captures, path: '*.png'}
