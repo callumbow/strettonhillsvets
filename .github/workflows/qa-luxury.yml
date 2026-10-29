@@ -1,0 +1,51 @@
+name: Visual QA luxury redesign
+on:
+  push:
+    paths: ['.github/workflows/qa-luxury.yml']
+    branches: [main]
+permissions: {contents: read}
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install --no-save playwright
+      - name: Verify live site, assets and responsive layout
+        shell: bash
+        run: |
+          cat > check.cjs <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{
+          const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
+          let failed=false;
+          for(const [name,width,height] of [['desktop',1440,900],['tablet',820,1040],['mobile',390,844],['small',320,700]]){
+            const p=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+            const errors=[];p.on('pageerror',e=>errors.push(e.message));
+            const response=await p.goto('https://theequinevet.co.uk/',{waitUntil:'networkidle',timeout:45000});
+            const data=await p.evaluate(()=>{
+              const cover=document.querySelector('.maison-hero__image img');
+              return {title:document.title,heading:document.querySelector('h1')?.innerText,
+                scrollWidth:document.documentElement.scrollWidth,width:innerWidth,
+                heroLoaded:cover?.naturalWidth>0,heroSrc:cover?.currentSrc,
+                gsap:typeof window.gsap==='function'||typeof window.gsap==='object',
+                trigger:!!window.ScrollTrigger,
+                sections:document.querySelectorAll('.maison section').length};
+            });
+            await p.screenshot({path:name+'-hero.png'});
+            await p.evaluate(()=>scrollTo(0,document.body.scrollHeight*.33));await p.waitForTimeout(900);
+            await p.screenshot({path:name+'-scroll.png'});
+            const ok=response.status()===200 && data.heading && data.heading.includes('THEY ARE') && data.heroLoaded && data.scrollWidth<=width+3 && data.gsap&&data.trigger&&data.sections>=7&&errors.length===0;
+            console.log(JSON.stringify({name,code:response.status(),ok,...data,errors}));
+            if(!ok)failed=true;
+            await p.close();
+          }
+          await browser.close();if(failed)process.exitCode=1;
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          JS
+          node check.cjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: luxury-website-screenshots
+          path: '*.png'
