@@ -69,3 +69,13 @@
     });
   });
 })();
+
+
+// Progressive, accessible editorial microinteractions.
+(()=>{const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(reduce||!('IntersectionObserver'in window))return;
+ const watch=document.querySelectorAll('.neo-animate,.neo-service-card,.neo-journal__card,.neo-intro__stamp');
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('neo-in');observer.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -50px 0px'});
+ watch.forEach((el,index)=>{el.style.setProperty('--neo-delay',Math.min(index%4,3)*90+'ms');observer.observe(el)});
+ document.documentElement.classList.add('neo-motion');
+})();

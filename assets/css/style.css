@@ -506,3 +506,129 @@ h1,h2,h3,h4,p{margin-top:0}
 @media(prefers-reduced-motion:reduce){
  .hero-art__frame,.hero-art__inset,.inner-hero__visual,.service-hero__visual{animation:none}
 }
+
+/* FULL-BLEED EQUINE EDITORIAL • v4 */
+.page-home{background:#f3f1e9}
+.neo-section{padding:clamp(95px,11vw,180px) 0}
+.neo-eyebrow{font:700 10px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;display:block}
+.neo-heading{font:400 clamp(70px,7.25vw,126px)/.87 'Cormorant Garamond',Georgia,serif;letter-spacing:-.055em;margin:0}
+.neo-heading em{font-weight:400}
+.neo-hero{min-height:min(950px,95svh);height:calc(100svh - 94px);max-height:1000px;position:relative;color:#fff;background:#1c352e;isolation:isolate;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.neo-hero__picture,.neo-hero__vignette{position:absolute;inset:0;z-index:-1}
+.neo-hero__photo{width:100%;height:100%;object-fit:cover;object-position:60% 43%;animation:neo-image-in 2.2s cubic-bezier(.18,.72,.2,1) both}
+.neo-hero__vignette{background:linear-gradient(90deg,rgba(8,30,23,.83),rgba(8,30,23,.43) 53%,rgba(8,30,23,.1)),linear-gradient(0deg,rgba(10,30,23,.55),transparent 37%)}
+.neo-hero__body{padding-block:110px;position:relative;z-index:2}
+.neo-kicker{font-size:10px;font-weight:700;letter-spacing:.24em;margin:0 0 42px;display:flex;align-items:center;gap:16px;animation:neo-rise .8s .15s both}
+.neo-kicker span{width:30px;height:1px;background:#e2ded0}
+.neo-hero h1{font:400 clamp(90px,10.1vw,184px)/.78 'Cormorant Garamond',Georgia,serif;letter-spacing:-.07em;max-width:1200px;margin:0 0 55px;animation:neo-rise 1.2s .24s both}
+.neo-hero h1 em{color:#e0e4cf;font-weight:400}
+.neo-hero__below{display:flex;align-items:flex-end;justify-content:space-between;gap:60px;max-width:1110px;animation:neo-rise 1s .42s both}
+.neo-hero__below p{max-width:415px;line-height:1.95;color:#e0e6dc;font-size:14px;margin:0}
+.neo-hero__buttons{display:flex;flex-wrap:wrap;gap:12px}
+.neo-btn{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 22px;min-height:59px;font-weight:700;line-height:1.3;font-size:11px;transition:background .28s,color .28s,transform .35s cubic-bezier(.22,1,.36,1)}
+.neo-btn svg{width:17px;transition:transform .3s}.neo-btn:hover{transform:translateY(-4px)}.neo-btn:hover svg{transform:translateX(5px)}
+.neo-btn--light{background:#ececdf;color:#1a382d}.neo-btn--light:hover{background:#fff}
+.neo-btn--outline{border:1px solid #b6c5b5;color:#fff}.neo-btn--outline:hover{background:#e7ebdf;color:#1a382d}
+.neo-hero__edge{position:absolute;left:var(--gutter);right:var(--gutter);bottom:28px;display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.19em;font-weight:700;color:#e6e7dc}
+.neo-hero__edge b{font-size:17px;margin-left:15px}
+.neo-hero__photo-credit{position:absolute;right:24px;top:30px;font-size:9px;letter-spacing:.17em;font-weight:700}
+.neo-ticker{overflow:hidden;background:#b9c7af;color:#1e3c2d;height:78px;display:flex;align-items:center}
+.neo-ticker__track{white-space:nowrap;display:flex;align-items:center;gap:38px;min-width:max-content;animation:neo-marquee 32s linear infinite;font-weight:700;font-size:11px;letter-spacing:.19em}
+.neo-ticker__track i{font-size:28px;color:#547660;font-style:normal}
+.neo-intro__layout{display:grid;grid-template-columns:27% 73%;gap:10px}.neo-intro__side{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+.neo-intro__copy .neo-heading{max-width:1050px}
+.neo-intro__bottom{display:flex;justify-content:space-between;align-items:end;gap:50px;margin-top:65px;padding-right:55px}
+.neo-intro__bottom p{max-width:570px;color:#647269;font-size:14px;line-height:2}
+.neo-intro__stamp{height:120px;width:120px;border:1px solid #9eaea0;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;color:#486656;transform:rotate(-12deg)}
+.neo-intro__stamp span{font-size:10px;line-height:1.4;font-weight:700;text-align:center;letter-spacing:.14em}.neo-intro__stamp b{position:absolute;bottom:8px;font-size:16px}
+.neo-round-link{width:140px;height:140px;border-radius:50%;border:1px solid #87998b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;flex-shrink:0;font-size:10px;font-weight:700;transition:background .4s,color .4s,transform .4s}.neo-round-link:hover{background:#234533;color:#fff;transform:rotate(9deg)}.neo-round-link svg{width:28px}
+.neo-photo-story{display:grid;grid-template-columns:52% 48%;min-height:760px;background:#1d3b30;color:#e8ebdf}
+.neo-photo-story__image{overflow:hidden;min-height:760px}.neo-photo-story__image img{width:100%;height:100%;object-fit:cover;object-position:center 46%}
+.neo-photo-story__message{padding:clamp(60px,8vw,145px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;position:relative}
+.neo-photo-story__message .neo-heading{margin:38px 0}.neo-photo-story__message p{font-size:14px;line-height:2;color:#c1d1c4;max-width:370px;margin-bottom:35px}
+.neo-line-link{display:inline-flex;align-items:center;gap:23px;padding-bottom:11px;border-bottom:1px solid currentColor;font-size:12px;font-weight:700;transition:gap .3s,color .3s}.neo-line-link svg{width:18px}.neo-line-link:hover{gap:36px;color:#91ab91}
+.neo-photo-story__numeral{position:absolute;right:40px;bottom:34px;font-size:10px;letter-spacing:.17em}
+.neo-section-heading{display:flex;justify-content:space-between;align-items:end;gap:60px;margin-bottom:65px}
+.neo-section-heading .neo-heading{margin-top:30px}.neo-section-heading>p{max-width:285px;font-size:13px;line-height:1.9;color:#68766e}
+.neo-service-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:19px}
+.neo-service-card{background:#e9e8df;min-width:0;transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s}
+.neo-service-card:hover{transform:translateY(-10px);box-shadow:0 23px 42px rgba(22,46,31,.12)}
+.neo-service-card__media{height:clamp(240px,27vw,400px);overflow:hidden;position:relative;background:#9cac9d}
+.neo-service-card__media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.neo-service-card:hover img{transform:scale(1.085)}
+.neo-service-card__number{position:absolute;top:20px;left:20px;color:#fff;font-size:9px;letter-spacing:.17em;font-weight:700;text-shadow:0 1px 4px #333}
+.neo-service-card__text{padding:30px 23px;display:flex;justify-content:space-between;gap:12px}
+.neo-service-card__text h3{font:500 clamp(29px,2.6vw,41px)/1 'Cormorant Garamond',Georgia,serif;margin:0 0 16px}
+.neo-service-card__text p{color:#68776b;font-size:12px;line-height:1.85;margin:0}
+.neo-service-card__arrow{font-size:23px;transition:transform .3s}.neo-service-card:hover .neo-service-card__arrow{transform:translate(4px,-4px)}
+.neo-services__bottom{display:flex;justify-content:space-between;align-items:center;gap:45px;border-top:1px solid #ccd1c6;padding-top:28px;margin-top:44px}
+.neo-services__bottom p{font-size:12px;color:#5c6b61;max-width:530px}
+.neo-feature{min-height:750px;display:flex;align-items:center;position:relative;isolation:isolate;color:#fff;background:#1b3529;overflow:hidden}
+.neo-feature__background,.neo-feature__overlay{position:absolute;inset:0;z-index:-1}
+.neo-feature__background img{width:100%;height:100%;object-fit:cover}
+.neo-feature__overlay{background:linear-gradient(90deg,rgba(12,38,27,.89),rgba(12,38,27,.46) 70%)}
+.neo-feature__content{padding-block:110px}.neo-feature__content .neo-heading{margin:34px 0;max-width:850px}
+.neo-feature__content p{max-width:420px;color:#e0e8db;font-size:14px;line-height:1.9}
+.neo-feature__actions{display:flex;gap:15px;margin-top:40px;flex-wrap:wrap}
+.neo-journal{background:#e6e9df}
+.neo-journal__grid{display:grid;grid-template-columns:1fr 1fr;gap:45px}
+.neo-journal__picture{height:470px;overflow:hidden;background:#bbc6b8;margin-bottom:30px}
+.neo-journal__picture img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.neo-journal__card:hover .neo-journal__picture img{transform:scale(1.055)}
+.neo-journal__card h3{font:500 clamp(41px,4vw,64px)/1.04 'Cormorant Garamond',Georgia,serif;margin:21px 0;max-width:500px}
+.neo-location{padding:clamp(100px,10vw,175px) 0;background:#f4f2eb}
+.neo-location__grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(50px,8vw,130px)}
+.neo-location .neo-heading{margin:30px 0}.neo-location p{max-width:450px;font-size:14px;line-height:2;color:#68766e;margin-bottom:35px}
+.neo-location__visual{height:620px;position:relative;overflow:hidden;background:#99ab9d}
+.neo-location__visual img{width:100%;height:100%;object-fit:cover}
+.neo-location__visual>span{position:absolute;bottom:30px;left:30px;color:#fff;font-weight:700;font-size:10px;letter-spacing:.16em;text-shadow:0 1px 6px #333}
+.neo-contact{background:#17362c;color:#eeeede;padding:clamp(95px,10vw,170px) 0}
+.neo-contact__inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}.neo-contact .neo-heading{margin:33px 0}
+.neo-contact__phone{font:400 clamp(48px,5.5vw,95px)/1 'Cormorant Garamond',Georgia,serif;border-bottom:1px solid #829c8b;padding-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.neo-contact__phone span{font-size:34px;transition:transform .3s}.neo-contact__phone:hover span{transform:translate(7px,-7px)}
+.neo-contact__details{grid-column:2;display:flex;gap:18px;flex-wrap:wrap;font-size:10px;letter-spacing:.06em;color:#bdcdbf}.neo-contact__details a{text-decoration:underline}
+.neo-image-reveal{overflow:hidden}.neo-image-reveal img{transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.neo-image-reveal:hover img{transform:scale(1.035)}
+@keyframes neo-image-in{from{transform:scale(1.16);filter:brightness(.65)}to{transform:scale(1);filter:brightness(1)}}
+@keyframes neo-rise{from{opacity:0;transform:translateY(42px)}to{opacity:1;transform:translateY(0)}}
+@keyframes neo-marquee{to{transform:translateX(-50%)}}
+@media(max-width:1050px){.neo-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.neo-service-card__media{height:360px}.neo-hero h1{font-size:clamp(77px,10vw,125px)}.neo-photo-story__message{padding:65px}}
+@media(max-width:690px){
+ .neo-hero{height:auto;min-height:730px;max-height:none;justify-content:end;padding:120px 0 85px}
+ .neo-hero__body{padding:0}
+ .neo-hero__photo{object-position:59% center}
+ .neo-hero__vignette{background:linear-gradient(0deg,rgba(9,32,24,.95),rgba(9,32,24,.55) 62%,rgba(9,32,24,.12))}
+ .neo-hero h1{font-size:clamp(71px,13vw,104px);line-height:.83;white-space:normal;margin-bottom:35px}
+ .neo-hero__below{display:block}
+ .neo-hero__below p{font-size:13px;line-height:1.8;max-width:340px;margin-bottom:25px}
+ .neo-hero__buttons{gap:10px}.neo-btn{padding:16px 15px;min-height:52px;font-size:10px}
+ .neo-hero__edge{bottom:23px;font-size:7px}
+ .neo-kicker{font-size:9px;line-height:1.6;margin-bottom:28px;letter-spacing:.16em}
+ .neo-ticker{height:61px}
+ .neo-intro__layout{grid-template-columns:1fr;gap:42px}
+ .neo-intro__side{flex-direction:row;align-items:center}
+ .neo-intro__stamp{height:85px;width:85px}.neo-intro__stamp span{font-size:7px}
+ .neo-intro__copy .neo-heading{font-size:clamp(63px,12vw,90px)}
+ .neo-intro__bottom{display:block;margin-top:35px;padding:0}.neo-intro__bottom p{font-size:13px}
+ .neo-round-link{height:110px;width:110px;margin-top:20px}
+ .neo-photo-story{grid-template-columns:1fr}.neo-photo-story__image{min-height:0;height:430px}
+ .neo-photo-story__message{padding:80px var(--gutter) 110px}
+ .neo-photo-story__message .neo-heading{font-size:clamp(67px,12vw,92px)}
+ .neo-section-heading{display:block;margin-bottom:45px}.neo-section-heading .neo-heading{font-size:clamp(65px,12vw,90px);margin:25px 0}
+ .neo-service-grid{grid-template-columns:1fr;gap:18px}.neo-service-card__media{height:370px}
+ .neo-service-card__text h3{font-size:42px}
+ .neo-services__bottom{display:block}
+ .neo-feature{min-height:630px}.neo-feature__content .neo-heading{font-size:clamp(72px,12vw,98px)}.neo-feature__content{padding-block:100px}
+ .neo-journal__grid{grid-template-columns:1fr;gap:50px}.neo-journal__picture{height:350px}
+ .neo-journal__card h3{font-size:48px}
+ .neo-location__grid{grid-template-columns:1fr;gap:50px}.neo-location .neo-heading{font-size:clamp(76px,14vw,110px)}
+ .neo-location__visual{height:450px}
+ .neo-contact__inner{grid-template-columns:1fr;gap:25px}.neo-contact .neo-heading{font-size:clamp(67px,12vw,100px)}
+ .neo-contact__phone{font-size:clamp(54px,11vw,84px)}.neo-contact__details{grid-column:1}
+}
+@media(prefers-reduced-motion:reduce){.neo-hero h1,.neo-kicker,.neo-hero__below,.neo-hero__photo,.neo-ticker__track{animation:none!important}}
+
+.neo-motion .neo-animate,.neo-motion .neo-service-card,.neo-motion .neo-journal__card,.neo-motion .neo-intro__stamp{opacity:0;transform:translateY(36px);transition:opacity .95s cubic-bezier(.22,1,.36,1),transform .95s cubic-bezier(.22,1,.36,1);transition-delay:var(--neo-delay,0ms)}
+.neo-motion .neo-in{opacity:1;transform:translateY(0)}
+.neo-motion .neo-service-card:hover{transform:translateY(-10px)}
+@media(prefers-reduced-motion:reduce){.neo-motion .neo-animate,.neo-motion .neo-service-card,.neo-motion .neo-journal__card,.neo-motion .neo-intro__stamp{opacity:1;transform:none}}
