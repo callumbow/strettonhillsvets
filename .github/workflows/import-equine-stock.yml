@@ -1,0 +1,44 @@
+name: Import licensed equine stock photography
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-equine-stock.yml'
+permissions:
+  contents: write
+jobs:
+  stock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and optimise free Unsplash photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          import urllib.request,io
+          from pathlib import Path
+          from PIL import Image,ImageOps
+          files={
+           'stock-horse-portrait.webp':'https://images.unsplash.com/photo-1603985724710-dab7abdccce1?w=1300&q=84&fit=crop',
+           'stock-black-horse.webp':'https://images.unsplash.com/photo-1567871669167-56c0dec0099a?w=1600&q=83&fit=crop',
+           'stock-dark-horse.webp':'https://images.unsplash.com/photo-1762597295895-07d5ba69ced0?w=1200&q=83&fit=crop'
+          }
+          target=Path('assets/images');target.mkdir(parents=True,exist_ok=True)
+          for fn,url in files.items():
+            req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+            with urllib.request.urlopen(req,timeout=30) as f:raw=f.read()
+            image=ImageOps.exif_transpose(Image.open(io.BytesIO(raw))).convert('RGB')
+            assert min(image.size)>450,(fn,image.size)
+            image.save(target/fn,'WEBP',quality=83,method=6)
+            print(fn,image.size,(target/fn).stat().st_size)
+          PY
+      - name: Commit image assets
+        run: |
+          git add assets/images/stock-*.webp
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add locally hosted licensed equine stock photographs'
+          git push origin HEAD:main
