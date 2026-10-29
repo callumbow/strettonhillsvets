@@ -1,0 +1,29 @@
+name: Install local cinematic animation libraries
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/install-cinema-libs.yml'
+permissions:
+  contents: write
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package GSAP and ScrollTrigger locally
+        run: |
+          npm install --no-save gsap@3
+          mkdir -p assets/vendor
+          cp node_modules/gsap/dist/gsap.min.js assets/vendor/gsap.min.js
+          cp node_modules/gsap/dist/ScrollTrigger.min.js assets/vendor/ScrollTrigger.min.js
+          test -s assets/vendor/gsap.min.js
+          test -s assets/vendor/ScrollTrigger.min.js
+      - name: Commit self-hosted animation libraries
+        run: |
+          git add assets/vendor/gsap.min.js assets/vendor/ScrollTrigger.min.js
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Bundle self-hosted GSAP and ScrollTrigger for cinematic site'
+          git push origin HEAD:main
