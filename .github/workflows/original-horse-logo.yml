@@ -1,0 +1,58 @@
+name: Prepare original horse logo assets
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/original-horse-logo.yml'
+permissions:
+  contents: write
+jobs:
+  process-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --quiet Pillow
+      - name: Remove external white background and generate icons
+        shell: bash
+        run: |
+          python - <<'PY'
+          from PIL import Image, ImageOps
+          from collections import deque
+          from pathlib import Path
+          from io import BytesIO
+          import base64
+          src=Image.open('assets/images/original-logo.webp').convert('RGBA')
+          w,h=src.size; pix=src.load()
+          q=deque([(x,0) for x in range(w)]+[(x,h-1) for x in range(w)]+[(0,y) for y in range(h)]+[(w-1,y) for y in range(h)])
+          seen=set()
+          while q:
+              x,y=q.popleft()
+              if (x,y) in seen or x<0 or y<0 or x>=w or y>=h: continue
+              seen.add((x,y));r,g,b,a=pix[x,y]
+              if min(r,g,b)<224 or max(r,g,b)-min(r,g,b)>20: continue
+              pix[x,y]=(255,255,255,0)
+              q.extend(((x+1,y),(x-1,y),(x,y+1),(x,y-1)))
+          full=src.crop(src.getbbox())
+          full.resize((full.width*4,full.height*4),Image.Resampling.LANCZOS).save('assets/images/logo-original-transparent.png')
+          horse=src.crop((48,34,178,132))
+          mark=Image.new('RGBA',(144,144),(0,0,0,0))
+          mark.alpha_composite(horse,(7,21))
+          mark=mark.resize((512,512),Image.Resampling.LANCZOS)
+          mark.save('assets/images/logo-mark.png')
+          for size,filename in [(512,'icon-512.png'),(192,'icon-192.png'),(180,'apple-touch-icon.png'),(64,'favicon-64.png')]:
+              mark.resize((size,size),Image.Resampling.LANCZOS).save('assets/'+filename)
+          mark.save('favicon.ico',format='ICO',sizes=[(16,16),(32,32),(48,48),(64,64)])
+          output=BytesIO()
+          mark.resize((96,96),Image.Resampling.LANCZOS).save(output,'PNG')
+          data=base64.b64encode(output.getvalue()).decode()
+          Path('assets/favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><image width="96" height="96" href="data:image/png;base64,'+data+'"/></svg>')
+          assert Path('assets/images/logo-mark.png').stat().st_size>10000
+          print('Original horse logo and full favicon set created')
+          PY
+      - name: Save generated brand assets
+        run: |
+          git add assets/images/logo-original-transparent.png assets/images/logo-mark.png assets/favicon.svg assets/icon-512.png assets/icon-192.png assets/apple-touch-icon.png assets/favicon-64.png favicon.ico
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Generate transparent original horse logo and favicon assets'
+          git push origin HEAD:main
