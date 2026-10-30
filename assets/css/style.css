@@ -836,3 +836,75 @@ h1,h2,h3,h4,p{margin-top:0}
 .original-identity img{border:0;background:transparent;mix-blend-mode:normal;filter:none}
 @media(max-width:950px){.brand-symbol{width:47px;height:47px}}
 @media(max-width:690px){.brand-symbol{width:42px;height:42px}.brand-primary{font-size:24px}.brand-secondary{font-size:6px}}
+
+/* Mobile layout refinement: stable photographs, readable type and touch-safe navigation. */
+.direction-icon{display:inline-block;vertical-align:middle;flex-shrink:0}
+.maison-service__arrow .direction-icon{width:24px;height:24px}
+.tick-list li:before{content:'';display:inline-block;width:14px;height:14px;background:currentColor;clip-path:polygon(0 45%,65% 45%,40% 20%,48% 12%,90% 50%,48% 88%,40% 80%,65% 55%,0 55%)}
+@media(hover:none),(pointer:coarse){
+ .maison-service__peek,.atelier-service-row img{display:none!important}
+ .maison-service:hover,.atelier-service-row:hover{padding-left:0}
+}
+@media(max-width:950px){
+ .maison-reveal{height:auto;padding:32px var(--gutter)}
+ .maison-reveal__stick{position:relative;height:auto;overflow:visible}
+ .maison-reveal__stage{width:100%;height:clamp(380px,68vw,580px)}
+ .maison-reveal__stage>img{transform:none;object-position:60% center}
+ .maison-hero__image img{transform:none;object-position:68% center}
+ .maison-cover__photo img{object-position:50% 30%}
+ .maison-place__photo img{object-position:60% center}
+ .maison-hero__center{transform:translateY(-45%)}
+}
+@media(max-width:690px){
+ :root{--gutter:22px}
+ body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+ .container,.maison-wrap{max-width:100%}
+ .header__inner .brand{min-width:0;gap:9px}.brand-type{min-width:0}
+ .brand-primary{font-size:24px}.brand-secondary{font-size:6px;letter-spacing:.13em}
+ .header__actions{flex-shrink:0}.menu-toggle{min-width:44px;min-height:44px}
+ .mobile-nav{max-height:calc(100dvh - 105px);overscroll-behavior:contain}
+ .mobile-nav .nav-link{min-height:48px;font-family:var(--font-body);font-size:17px}
+ .maison-hero{height:auto;min-height:0;padding:38px var(--gutter) 28px;display:flex;flex-direction:column;gap:28px}
+ .maison-hero__index,.maison-hero__bottom{position:relative;inset:auto;font-size:9px;line-height:1.7;letter-spacing:.12em}
+ .maison-hero__center{position:relative;inset:auto;transform:none;padding:60px 0 40px}
+ .maison-hero__image img{object-position:70% center}
+ .maison-hero__shade{background:linear-gradient(90deg,rgba(7,22,15,.78),rgba(7,22,15,.2)),linear-gradient(0deg,rgba(7,22,15,.65),transparent)}
+ .maison-hero__eyebrow{font-size:9px;line-height:1.8;letter-spacing:.12em;margin-bottom:26px}
+ .maison-hero h1{font-size:clamp(64px,17vw,110px);line-height:.85;letter-spacing:-.065em;margin-bottom:28px}
+ .maison-hero__description{font-size:16px;line-height:1.7;max-width:340px}
+ .maison-hero__actions{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-top:28px}
+ .maison-hero__actions a{font-size:10px;min-height:48px;justify-content:space-between;padding:14px 0;letter-spacing:.09em}
+ .maison-hero__bottom span:last-child{display:none}
+ .maison-reveal{padding:24px var(--gutter)}
+ .maison-reveal__stage{height:440px}
+ .maison-reveal__type{font-size:clamp(48px,13vw,76px);line-height:.95;letter-spacing:-.055em}
+ .maison-reveal__surtitle,.maison-reveal__foot{font-size:8px;letter-spacing:.12em;left:20px;right:20px}
+ .maison-letter,.maison-services,.maison-place,.maison-end{padding-block:68px}
+ .maison-letter h2,.maison-services__head h2,.maison-place h2{font-size:clamp(48px,12.6vw,79px);line-height:.95;letter-spacing:-.055em;margin:28px 0}
+ .maison-letter__detail p,.maison-services__head p,.maison-cover p,.maison-place p,.maison-end__bottom p{font-size:16px;line-height:1.8}
+ .maison-link{font-size:10px;line-height:1.6;gap:15px;min-height:44px;max-width:100%;letter-spacing:.07em}
+ .maison-imagebreak{height:500px}.maison-imagebreak>img{object-position:58% center}
+ .maison-imagebreak__copy{right:var(--gutter);bottom:15%}.maison-imagebreak__copy>span{font-size:8px;line-height:1.8;letter-spacing:.12em}
+ .maison-imagebreak h2{font-size:clamp(59px,15vw,90px);line-height:.88;letter-spacing:-.06em}
+ .maison-imagebreak__index{font-size:8px;letter-spacing:.12em}
+ .maison-services__head{margin-bottom:36px}.maison-service{grid-template-columns:22px minmax(0,1fr) 22px;gap:12px;min-height:96px;padding-block:20px}
+ .maison-service h3{font-size:clamp(27px,7.5vw,42px);line-height:1.08;letter-spacing:-.035em}
+ .maison-service__arrow .direction-icon{width:20px;height:20px}
+ .maison-cover{min-height:0}.maison-cover__photo{height:auto;aspect-ratio:4/5;max-height:520px}
+ .maison-cover__story{padding:58px var(--gutter) 85px}.maison-cover h2{font-size:clamp(55px,13vw,85px);line-height:.94;letter-spacing:-.055em;margin:30px 0}
+ .maison-place__grid{gap:35px}.maison-place__photo{height:auto;aspect-ratio:4/5;max-height:500px}
+ .maison-end h2{font-size:clamp(70px,18vw,115px);line-height:.85;margin:32px 0 45px}
+ .maison-end__bottom a{display:inline-flex;gap:8px;align-items:center;font-size:clamp(37px,10.5vw,66px);margin-top:20px}
+ .maison-end__links a{display:inline-flex;gap:10px;align-items:center;min-height:44px;line-height:1.7}
+ .inner-hero .display,.service-hero .display,.simple-hero .display,.editorial .display,.region-layout .display,.about-split__copy .display,.original-identity .display,.detail-columns__main .display{font-size:clamp(45px,11.8vw,76px);line-height:1.02;overflow-wrap:break-word}
+ .inner-hero__copy>p,.service-hero__lead,.prose,.about-split__copy>p{font-size:16px;line-height:1.8}
+ .inner-hero__visual,.service-hero__visual{height:auto;aspect-ratio:4/3}
+ .inner-hero__img,.service-hero__image{object-position:center 35%}
+ .service-cards{grid-template-columns:minmax(0,1fr)}.service-card{min-height:250px}.service-card__body p{font-size:15px}
+ .footer-prelude h2{font-size:clamp(49px,12vw,76px);line-height:1.05}
+ .footer-col a{min-height:36px;display:flex;align-items:center}.footer-bottom{padding-bottom:28px;overflow-wrap:anywhere}
+ .footer-prelude__action p,.footer-brand p{font-size:15px}
+ .contact-email{font-size:clamp(16px,4.8vw,22px);overflow-wrap:anywhere}.contact-phone{font-size:clamp(26px,8vw,38px)}
+ .mobile-emergency{bottom:0;left:0;right:0;min-height:60px;padding:14px 22px calc(14px + env(safe-area-inset-bottom,0px));border-width:1px 0 0;box-shadow:none}
+ .maison>* *{min-width:0}
+}
