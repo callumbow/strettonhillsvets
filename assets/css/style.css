@@ -908,3 +908,15 @@ h1,h2,h3,h4,p{margin-top:0}
  .mobile-emergency{bottom:0;left:0;right:0;min-height:60px;padding:14px 22px calc(14px + env(safe-area-inset-bottom,0px));border-width:1px 0 0;box-shadow:none}
  .maison>* *{min-width:0}
 }
+
+/* Supplied four-horse photograph: keep every face in view on phones. */
+.maison-hero__image img{object-position:50% 35%}
+@media(max-width:950px){.maison-hero__image img{object-position:50% 35%}}
+@media(max-width:690px){
+ .maison-hero{background:#18382d}
+ .maison-hero__image{position:relative;inset:auto;width:calc(100% + var(--gutter)*2);margin: -38px calc(var(--gutter)*-1) 0;z-index:auto;flex-shrink:0;overflow:hidden}
+ .maison-hero__image img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;object-position:center;filter:none;transform:none}
+ .maison-hero__shade{display:none}
+ .maison-hero__center{padding:18px 0 12px}
+ .maison-hero__index{margin-top:0}
+}
