@@ -15,7 +15,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /about/ /services/ /contact/ /faqs/ /assets/css/style.css /assets/js/main.js /assets/images/horses-hero.webp; do
+          for path in / /about/ /services/ /services/equinosis-gait-analysis/ /services/endoscopy/ /services/gastroscopy/ /services/lameness-diagnostics/ /contact/ /faqs/ /assets/css/style.css /assets/js/main.js /assets/images/horses-hero.webp; do
             code=$(curl -L -sS --retry 3 --max-time 25 -o /dev/null -w '%{http_code}' "https://theequinevet.co.uk${path}")
             echo "${path} -> HTTP ${code}"
             test "${code}" = 200
@@ -34,7 +34,13 @@ jobs:
               {url:'/',width:390,label:'mobile'},
               {url:'/about/',width:1280,label:'about'},
               {url:'/services/',width:390,label:'services-mobile'},
-              {url:'/contact/',width:390,label:'contact-mobile'}
+              {url:'/contact/',width:390,label:'contact-mobile'},
+              {url:'/services/equinosis-gait-analysis/',width:390,label:'equinosis-mobile',expected:'Equinosis'},
+              {url:'/services/equinosis-gait-analysis/',width:1440,label:'equinosis-desktop',expected:'Equinosis'},
+              {url:'/services/endoscopy/',width:390,label:'endoscopy-mobile',expected:'Endoscopy'},
+              {url:'/services/endoscopy/',width:1440,label:'endoscopy-desktop',expected:'Endoscopy'},
+              {url:'/services/gastroscopy/',width:390,label:'gastroscopy-mobile',expected:'gastroscopy'},
+              {url:'/services/lameness-diagnostics/',width:390,label:'lameness-mobile',expected:'Equinosis'}
             ];
             let fail = false;
             for (const c of cases) {
@@ -52,13 +58,16 @@ jobs:
                   visibleH1:!!document.querySelector('h1')?.getBoundingClientRect().width,
                   width:document.documentElement.scrollWidth,
                   viewport:innerWidth,
-                  missingImages:images.filter(x=>!x.complete || x.naturalWidth===0).map(x=>x.src),
+                  missingImages:images.filter(x=>x.loading!=='lazy' && (!x.complete || x.naturalWidth===0)).map(x=>x.src),
+                  bodyText:document.body.innerText.toLowerCase(),
                   imageCount:images.length
                 };
               });
               const styled=/DM Sans|Cormorant/.test(result.font);
-              const ok=response.status()===200 && styled && result.visibleH1 && result.missingImages.length===0 && result.width<=result.viewport+2 && errors.length===0;
-              console.log(JSON.stringify({page:c.label,status:response.status(),styled,ok,...result,errors}));
+              const expectedPresent=!c.expected || result.bodyText.includes(c.expected.toLowerCase());
+              const ok=response.status()===200 && styled && result.visibleH1 && expectedPresent && result.missingImages.length===0 && result.width<=result.viewport+2 && errors.length===0;
+              delete result.bodyText;
+              console.log(JSON.stringify({page:c.label,status:response.status(),styled,expectedPresent,ok,...result,errors}));
               if(!ok) fail=true;
               if(c.label==='mobile') {
                 const menu=page.locator('.menu-toggle');
