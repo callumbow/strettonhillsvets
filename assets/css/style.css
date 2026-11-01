@@ -920,3 +920,11 @@ h1,h2,h3,h4,p{margin-top:0}
  .maison-hero__center{padding:18px 0 12px}
  .maison-hero__index{margin-top:0}
 }
+
+/* Keep inner-page hero photography within the mobile viewport. */
+@media(max-width:690px){
+  .inner-hero__grid{grid-template-columns:minmax(0,1fr);min-width:0}
+  .inner-hero__grid>*{min-width:0;max-width:100%}
+  .inner-hero__visual{width:100%;max-width:100%}
+  .inner-hero__img{display:block;max-width:100%}
+}
