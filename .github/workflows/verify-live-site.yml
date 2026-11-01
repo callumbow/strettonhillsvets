@@ -58,6 +58,7 @@ jobs:
                   visibleH1:!!document.querySelector('h1')?.getBoundingClientRect().width,
                   width:document.documentElement.scrollWidth,
                   viewport:innerWidth,
+                  overflowNodes:[...document.querySelectorAll('body *')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0 && r.right>innerWidth+2 && getComputedStyle(el).position!=='fixed'}).slice(0,18).map(el=>({tag:el.tagName,cls:String(el.className).slice(0,80),text:(el.textContent||'').trim().slice(0,50),right:Math.round(el.getBoundingClientRect().right),width:Math.round(el.getBoundingClientRect().width)})),
                   missingImages:images.filter(x=>x.loading!=='lazy' && (!x.complete || x.naturalWidth===0)).map(x=>x.src),
                   bodyText:document.body.innerText.toLowerCase(),
                   imageCount:images.length
