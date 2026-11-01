@@ -4,7 +4,7 @@ A premium, fully responsive, static website for **Stretton Hills Veterinary Prac
 
 ## What is included
 
-- **14 indexable pages:** Home, About, Services, seven detailed service pages (Routine Care, Lameness & Diagnostics, Equine Dentistry, Reproduction, Pre-purchase Vettings, Emergency Care, Gastroscopy), Areas We Cover, FAQs, Contact and Privacy / Website Information.
+- **19 indexable pages:** Home, About, Services, nine detailed service pages (Routine Care, Lameness & Diagnostics, Equinosis Gait Analysis, Equine Endoscopy, Equine Dentistry, Reproduction, Pre-purchase Vettings, Emergency Care, Gastroscopy), Areas We Cover, FAQs, Contact and Privacy / Website Information.
 - Dedicated **404 page**.
 - Page-specific SEO titles, descriptions, canonical tags, social sharing metadata, semantic headings, descriptive alt text, contextual navigation and internal links.
 - Schema.org structured data: `VeterinaryCare`, `Service`, `WebPage`, and `FAQPage` where appropriate.
@@ -45,7 +45,7 @@ Practice's original website as supplied by the project owner, plus public practi
 
 ## What was tested
 
-- All 14 pages have one H1, unique page titles/descriptions and the designer-credit link.
+- All indexable pages have one H1, unique page titles/descriptions and the designer-credit link.
 - Every local link points to a file present in the package.
 - Desktop and responsive layouts checked at **320px, 390px, 768px and 1440px**. No horizontal overflow was found at those widths.
 - Local images were validated and the mobile menu interaction tested with a browser preview.
