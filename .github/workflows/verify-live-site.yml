@@ -11,6 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Confirm updated mobile CSS has deployed
+        shell: bash
+        run: |
+          for attempt in $(seq 1 90); do
+            if curl -fsSL --max-time 15 "https://theequinevet.co.uk/assets/css/style.css" -o /tmp/stretton-live.css &&
+               grep -Fq "Keep inner-page hero photography within the mobile viewport" /tmp/stretton-live.css; then
+              echo "Published mobile hero fix confirmed"
+              exit 0
+            fi
+            echo "Live CSS not updated yet; check ${attempt}"
+            sleep 4
+          done
+          echo "Updated CSS did not deploy within the verification window"
+          exit 1
       - name: Check published files
         shell: bash
         run: |
